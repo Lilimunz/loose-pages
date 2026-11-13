@@ -7,6 +7,7 @@ __pycache__/
 venv/
 env/
 myvenv/
+/djangogirls_venv/
 
 # Configurações locais e segredos
 .env
