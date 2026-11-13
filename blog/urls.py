@@ -6,6 +6,7 @@ from . import paginas, views
 urlpatterns = [
     path("", paginas.post_list, name="post_list"),
     path("post/<int:pk>/", paginas.post_detail, name="post_detail"),
+    path("post/<int:pk>/curtir/", paginas.curtir, name="curtir"),
     path("sobre/", paginas.sobre, name="sobre"),
     path("streak/", staff_member_required(views.streak), name="streak"),
 ]

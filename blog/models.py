@@ -30,4 +30,12 @@ class Post(models.Model):
     def __str__(self):
         return self.title    
 
-# Create your models here.
+
+class Curtida(models.Model):
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name="curtidas")
+    leitor = models.UUIDField()
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=["post", "leitor"], name="uma_curtida_por_leitor"),
+        ]

@@ -158,3 +158,19 @@ h1, h2, h3, .wordmark { font-family: var(--font-heading); }
   .intro-asterisk { width: 19px; height: 19px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; scroll-behavior: auto !important; } }
+
+.like-button {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  min-height: 44px;
+  padding: 0 1rem;
+  border: 1px solid currentColor;
+  border-radius: 2rem;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.like-button span { font-size: 1.4em; }
+.like-button[aria-pressed="true"] { color: var(--primary);}

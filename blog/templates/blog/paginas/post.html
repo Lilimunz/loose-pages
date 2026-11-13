@@ -16,6 +16,15 @@
     <span class="article-author"> · por Alicia</span>
   </header>
   <div class="article-body">{{ post.text|linebreaks }}</div>
+  {% with total=post.curtidas.count %}
+  <form id="curtida" method="post" action="{% url 'curtir' post.pk %}?categoria={{ categoria }}">
+    {% csrf_token %}
+    <button class="like-button" type="submit" name="acao" value="{% if curtido %}descurtir{% else %}curtir{% endif %}"
+            aria-pressed="{{ curtido|yesno:'true,false' }}" aria-label="Curtir publicação. Total de curtidas: {{ total }}">
+      <span aria-hidden="true">{% if curtido %}♥{% else %}♡{% endif %}</span> {{ total }}
+    </button>
+  </form>
+  {% endwith %}
   <div class="article-end"><span>Com carinho, Alicia.</span>{% include "blog/paginas/voltar.html" %}</div>
 </article>
 {% endblock %}
