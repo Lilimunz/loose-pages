@@ -1,0 +1,20 @@
+{% extends "blog/paginas/base.html" %}
+{% load static %}
+{% block titulo %}Sobre a Alicia — Páginas soltas{% endblock %}
+{% block descricao %}Conheça Alicia, estudante de Análise e Desenvolvimento de Sistemas e autora do Páginas soltas.{% endblock %}
+{% block menu %}
+  <a href="{% url 'post_list' %}">Início</a>
+  <a href="{% url 'sobre' %}" class="nav-active" aria-current="page">Sobre mim</a>
+{% endblock %}
+{% block conteudo %}
+<section class="about-page">
+  <p class="eyebrow"><span class="small-line"></span> POR TRÁS DAS PÁGINAS</p>
+  <h1>Prazer, <span>Alicia.</span>{% include "blog/paginas/icone.html" with nome="asterisco" only %}</h1>
+  <p class="about-bio">Sou a Alicia, estudante de Análise e Desenvolvimento de Sistemas. Gosto de programar, ler, jogar e treinar. Criei o Páginas soltas pra guardar o que vou aprendendo e ter um lugar pra escrever quando der vontade.</p>
+  <img class="about-image" src="{% static 'blog/alicia-desk.jpg' %}" width="1536" height="768" alt="Um caderno aberto, uma caneta, um livro e um videogame portátil em uma mesa clara">
+  <div class="about-interests" aria-label="Meus interesses">
+    {% for valor, rotulo in categorias %}<span class="{{ valor }}">{% include "blog/paginas/icone.html" with nome=valor only %}{{ rotulo }}</span>{% endfor %}
+  </div>
+  {% include "blog/paginas/voltar.html" %}
+</section>
+{% endblock %}

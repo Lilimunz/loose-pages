@@ -1,0 +1,41 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block titulo %}Páginas soltas — O diário digital da Alicia{% endblock %}</title>
+  <meta name="description" content="{% block descricao %}Programação, leituras, jogos e pensamentos no diário digital da Alicia.{% endblock %}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,500;1,500&amp;family=Literata:ital,wght@0,400;0,500;1,400&amp;display=swap">
+  <link rel="stylesheet" href="{% static 'blog/paginas-soltas.css' %}">
+</head>
+<body class="blog-shell">
+  {% include "blog/paginas/simbolos.html" %}
+  <header class="site-header reading-width">
+    <a class="wordmark" href="{% url 'post_list' %}" aria-label="Páginas soltas — página inicial">
+      {% include "blog/paginas/icone.html" with nome="asterisco" classe="brand-mark" only %}
+      <span>Páginas soltas<span class="brand-period">.</span></span>
+    </a>
+    <nav aria-label="Menu principal">
+      {% block menu %}
+      <a href="{% url 'post_list' %}" class="nav-active" aria-current="page">Início</a>
+      <a href="{% url 'sobre' %}">Sobre mim</a>
+      {% endblock %}
+    </nav>
+  </header>
+  <main class="reading-width main-content">{% block conteudo %}{% endblock %}</main>
+  <footer class="site-footer reading-width">
+    <span>© {% now "Y" %} Alicia Abade Muniz</span>
+    <div>
+      {% if user.is_active and user.is_staff %}<a href="{% url 'streak' %}">Minha sequência</a>{% endif %}
+      {% comment %}Preencha os dois endereços abaixo para ativar os links.{% endcomment %}
+      {% with github="https://github.com/Lilimunz" linkedin="https://www.linkedin.com/in/alicia-muniz-dev/" %}
+        {% if github %}<a href="{{ github }}" target="_blank" rel="noopener noreferrer">GitHub {% include "blog/paginas/icone.html" with nome="externo" only %}</a>{% else %}<span class="social-unset">GitHub</span>{% endif %}
+        {% if linkedin %}<a href="{{ linkedin }}" target="_blank" rel="noopener noreferrer">LinkedIn {% include "blog/paginas/icone.html" with nome="externo" only %}</a>{% else %}<span class="social-unset">LinkedIn</span>{% endif %}
+      {% endwith %}
+    </div>
+  </footer>
+</body>
+</html>

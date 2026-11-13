@@ -1,0 +1,43 @@
+{% extends "blog/paginas/base.html" %}
+{% load i18n %}
+{% block conteudo %}
+<section class="introduction">
+  <p class="eyebrow"><span class="small-line"></span> UM DIÁRIO DIGITAL, SEM PRESSA</p>
+  <h1>Oi, eu sou a <span>Alicia.</span>{% include "blog/paginas/icone.html" with nome="asterisco" classe="intro-asterisk" only %}</h1>
+  <p class="intro-copy">Aqui eu escrevo sobre o que tô programando, os livros que tô lendo, os jogos que tô jogando e as coisas que ficam na minha cabeça.</p>
+  <p class="intro-note">Um pouco do que aprendo. Um pouco de quem sou.</p>
+</section>
+<section id="posts" class="posts-section" aria-labelledby="titulo-posts">
+  <div class="section-heading">
+    <h2 id="titulo-posts">Últimas páginas</h2>
+    <span class="post-count">{{ posts|length }} publicaç{{ posts|length|pluralize:"ão,ões" }}</span>
+  </div>
+  <form class="category-filters" method="get" action="{% url 'post_list' %}#posts" aria-label="Filtrar posts por categoria">
+    <button class="category-filter todas" name="categoria" value="todas" aria-pressed="{% if categoria == 'todas' %}true{% else %}false{% endif %}">Todas</button>
+    {% for valor, rotulo in categorias %}
+      <button class="category-filter {{ valor }}" name="categoria" value="{{ valor }}" aria-pressed="{% if categoria == valor %}true{% else %}false{% endif %}">
+        {% include "blog/paginas/icone.html" with nome=valor only %}{{ rotulo }}
+      </button>
+    {% endfor %}
+  </form>
+  <div class="post-list">
+    {% for post in posts %}
+      {% url 'post_detail' post.pk as detalhe %}
+      <article class="post-card {{ post.category|default:'sem-categoria' }}">
+        <div class="post-meta">
+          <span class="post-category">{{ post.get_category_display|default:"Sem categoria" }}</span>
+          <span class="meta-dot" aria-hidden="true">·</span>
+          {% language "pt-br" %}<time datetime="{{ post.published_date|date:'Y-m-d' }}">{{ post.published_date|date:"j \d\e F \d\e Y" }}</time>{% endlanguage %}
+          {% if forloop.first and categoria == "todas" %}<span class="latest-label"><span></span>MAIS RECENTE</span>{% endif %}
+        </div>
+        <h3><a href="{{ detalhe }}?categoria={{ categoria }}">{{ post.title }}{% include "blog/paginas/icone.html" with nome="externo" only %}</a></h3>
+        <p>{{ post.text|truncatewords:34 }}</p>
+        <a class="read-link" href="{{ detalhe }}?categoria={{ categoria }}" aria-label="Ler {{ post.title }}">Continuar lendo <span aria-hidden="true">→</span></a>
+      </article>
+    {% empty %}
+      <p class="empty-state">Ainda não tem nenhuma página por aqui. Logo chega uma nova história.</p>
+    {% endfor %}
+  </div>
+  {% if posts %}<p class="end-note">{% include "blog/paginas/icone.html" with nome="asterisco" only %} Por enquanto, são essas as páginas. Outras vêm por aí.</p>{% endif %}
+</section>
+{% endblock %}

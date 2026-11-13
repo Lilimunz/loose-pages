@@ -1,0 +1,21 @@
+{% extends "blog/paginas/base.html" %}
+{% load i18n %}
+{% block titulo %}{{ post.title }} — Páginas soltas{% endblock %}
+{% block descricao %}{{ post.text|truncatewords:25 }}{% endblock %}
+{% block menu %}
+  <a href="{% url 'post_list' %}?categoria={{ categoria }}" class="nav-active">Início</a>
+  <a href="{% url 'sobre' %}">Sobre mim</a>
+{% endblock %}
+{% block conteudo %}
+<article class="article-page {{ post.category|default:'sem-categoria' }}">
+  {% include "blog/paginas/voltar.html" %}
+  <header class="article-header">
+    <span class="article-category">{{ post.get_category_display|default:"Sem categoria" }}</span>
+    <h1>{{ post.title }}</h1>
+    {% language "pt-br" %}<time datetime="{{ post.published_date|date:'Y-m-d' }}">{{ post.published_date|date:"j \d\e F \d\e Y" }}</time>{% endlanguage %}
+    <span class="article-author"> · por Alicia</span>
+  </header>
+  <div class="article-body">{{ post.text|linebreaks }}</div>
+  <div class="article-end"><span>Com carinho, Alicia.</span>{% include "blog/paginas/voltar.html" %}</div>
+</article>
+{% endblock %}
