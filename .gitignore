@@ -1,0 +1,27 @@
+# Arquivos gerados pelo Python
+__pycache__/
+*.py[cod]
+
+# Ambiente virtual
+.venv/
+venv/
+env/
+myvenv/
+
+# Configurações locais e segredos
+.env
+.env.*
+!.env.example
+
+# Banco de dados local do Django
+db.sqlite3
+db.sqlite3-*
+
+# Arquivos enviados pelo usuário e gerados pelo collectstatic
+media/
+staticfiles/
+
+# Editor e sistema operacional
+.vscode/
+.DS_Store
+Thumbs.db
