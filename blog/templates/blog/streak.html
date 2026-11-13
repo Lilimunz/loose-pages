@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Minha sequência · Páginas soltas</title>
+  <meta name="description" content="Calendário de postagens do diário: quantos dias seguidos escrevendo.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="site-kicker">diário digital</p>
+      <h1 class="site-title"><a href="{% url 'post_list' %}">Minha sequência</a></h1>
+      <p class="site-tagline">Cada quadradinho é um dia. Quanto mais escuro, mais páginas escritas.</p>
+      <nav class="site-nav"><a href="{% url 'post_list' %}">Início</a> · <a href="{% url 'streak' %}">Minha sequência</a></nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="stats">
+      <div class="stat"><span class="stat-num">{{ streak_atual }}</span><span class="stat-label">dias seguidos agora</span></div>
+      <div class="stat"><span class="stat-num">{{ maior_streak }}</span><span class="stat-label">maior sequência</span></div>
+      <div class="stat"><span class="stat-num">{{ total_posts }}</span><span class="stat-label">posts publicados</span></div>
+    </section>
+
+    <section class="post streak-card">
+      <h2 class="section-title">Último ano</h2>
+      <div class="streak-scroll">
+        <div class="streak-grid">
+          {% for semana in semanas %}
+            <div class="streak-week">
+              {% for dia in semana %}
+                <span class="day lvl-{{ dia.nivel }}" title="{{ dia.data|date:'d/m/Y' }}: {{ dia.qtd }} post{{ dia.qtd|pluralize }}"></span>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="legend">
+        menos
+        <span class="day lvl-0"></span><span class="day lvl-1"></span><span class="day lvl-2"></span><span class="day lvl-3"></span><span class="day lvl-4"></span>
+        mais
+      </div>
+    </section>
+
+    <h2 class="section-title">Por categoria</h2>
+    <div class="cat-grid">
+      {% for cat in categorias %}
+        <div class="cat-card cat-{{ cat.slug }}">
+          <h3 class="cat-title">{{ cat.nome }}</h3>
+          <p class="cat-count"><strong>{{ cat.total }}</strong> post{{ cat.total|pluralize }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Escrito com calma · {% now "Y" %}</div>
+  </footer>
+</body>
+</html>

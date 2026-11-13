@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meu diário digital</title>
+  <meta name="description" content="Escritos sobre programação, leituras, jogos e pensamentos soltos.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,600;0,9..144,800;1,9..144,500&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="wrap">
+      <p class="site-kicker">diário digital</p>
+      <h1 class="site-title"><a href="/">Por aqui, Alicia</a></h1>
+      <p class="site-tagline">Oie, sou a Alicia. Criei esse blog pra lembrar das coisas que eu começo, largo e às vezes
+        volto pra terminar.</p>
+      <ul class="tags">
+        <li class="cat-programacao">programação</li>
+        <li class="cat-leituras">leituras</li>
+        <li class="cat-jogos">jogos</li>
+        <li class="cat-pensamentos">pensamentos</li>
+      </ul>
+
+      <nav class="site-nav">
+        <a href="{% url 'post_list' %}">Início</a> ·
+        <a href="{% url 'streak' %}">Minha sequência</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    {% for post in posts %}
+    {% if forloop.first %}
+    <article class="post post--featured{% if post.category %} cat-{{ post.category }}{% endif %}">
+      <span class="badge">Mais recente</span>
+      <time class="post-date" datetime="{{ post.published_date|date:'Y-m-d' }}">
+        {{ post.published_date|date:"d \d\e F \d\e Y" }}
+      </time>
+      <h2 class="post-title">
+        <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+      </h2>
+      <div class="post-text">{{ post.text|linebreaksbr }}</div>
+    </article>
+    {% if not forloop.last %}
+    <h2 class="section-title">Anteriores</h2>
+    <div class="post-list">
+      {% endif %}
+      {% else %}
+      <article class="post{% if post.category %} cat-{{ post.category }}{% endif %}">
+        <time class="post-date" datetime="{{ post.published_date|date:'Y-m-d' }}">
+          {{ post.published_date|date:"d M Y" }}
+        </time>
+        <h3 class="post-title">
+          <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+        </h3>
+        <p class="post-text">{{ post.text|truncatewords:40|linebreaksbr }}</p>
+      </article>
+      {% if forloop.last %}
+    </div>
+    {% endif %}
+    {% endif %}
+    {% empty %}
+    <div class="empty">
+      <p class="empty-title">Nenhuma página escrita ainda.</p>
+      <p>O diário está em branco por enquanto — volte em breve.</p>
+    </div>
+    {% endfor %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="wrap">Escrito com querência · {% now "Y" %}</div>
+  </footer>
+</body>
+
+</html>

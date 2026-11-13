@@ -1,0 +1,31 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ post.title }}</title>
+    <link rel="stylesheet" href="{% static 'blog/blog.css' %}">
+</head>
+
+<body>
+    <main class="wrap">
+        <p><a href="{% url 'post_list' %}">← Voltar ao blog</a></p>
+
+        <article class="post{% if post.category %} cat-{{ post.category }}{% endif %}">
+            <time class="post-date" datetime="{{ post.published_date|date:'Y-m-d' }}">
+    {{ post.published_date|date:"d/m/Y" }}
+</time>
+            {% if post.category %}
+            <ul class="tags">
+                <li class="cat-{{ post.category }}">{{ post.get_category_display }}</li>
+            </ul>
+            {% endif %}
+            <h1 class="post-title">{{ post.title }}</h1>
+            <div class="post-text">{{ post.text|linebreaks }}</div>
+        </article>
+    </main>
+</body>
+
+</html>
